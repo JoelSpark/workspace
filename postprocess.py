@@ -2,7 +2,7 @@
 ##################################################
 # Gnuradio Python Flow Graph
 # Title: Postprocess
-# Generated: Mon Oct 14 19:04:05 2013
+# Generated: Mon Oct 14 22:25:53 2013
 ##################################################
 
 from gnuradio import analog
@@ -345,6 +345,7 @@ class postprocess(grc_wxgui.top_block_gui):
         	1, samp_rate, width, 100, firdes.WIN_HAMMING, 6.76))
         self.hilbert_fc_0_0 = filter.hilbert_fc(512)
         self.decoder_tone_freq = analog.sig_source_c(96000, analog.GR_SIN_WAVE, 1000, 1, 0)
+        self.blocks_udp_source_0 = blocks.udp_source(gr.sizeof_gr_complex*1, "192.168.0.138", 8888, 32768, True)
         self.blocks_multiply_xx_0_0_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
@@ -352,7 +353,6 @@ class postprocess(grc_wxgui.top_block_gui):
         self.blocks_multiply_const_vxx_1_0 = blocks.multiply_const_vff((detect_level, ))
         self.blocks_multiply_const_vxx_1 = blocks.multiply_const_vff((detect_level*2, ))
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vff((volume, ))
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, "/home/jspark/data/iq/fo29", False)
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
         self.blocks_complex_to_mag_squared_0 = blocks.complex_to_mag_squared(1)
         self.blocks_complex_to_float_0 = blocks.complex_to_float(1)
@@ -388,9 +388,9 @@ class postprocess(grc_wxgui.top_block_gui):
         self.connect((self.analog_agc3_xx_0, 0), (self.blocks_complex_to_float_0, 0))
         self.connect((self.blocks_complex_to_float_0, 0), (self.satisfi_morse_decode_0, 0))
         self.connect((self.blocks_multiply_xx_0, 0), (self.low_pass_filter_0, 0))
-        self.connect((self.blocks_file_source_0, 0), (self.blocks_multiply_xx_0, 0))
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.blocks_multiply_xx_0, 0), (self.wxgui_fftsink2_0, 0))
+        self.connect((self.blocks_udp_source_0, 0), (self.blocks_multiply_xx_0, 0))
 
 
 # QT sink close method reimplementation
