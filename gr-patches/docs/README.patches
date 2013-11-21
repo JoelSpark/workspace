@@ -1,0 +1,11 @@
+This is the patches-write-a-block package meant as a guide to building
+out-of-tree packages. To use the patches blocks, the Python namespaces
+is in 'patches', which is imported as:
+
+    import patches
+
+See the Doxygen documentation for details about the blocks available
+in this package. A quick listing of the details can be found in Python
+after importing by using: 
+
+    help(patches)

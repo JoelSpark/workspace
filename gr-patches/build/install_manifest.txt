@@ -1,0 +1,13 @@
+/usr/local/include/patches/api.h
+/usr/local/include/patches/quadrature_demod.h
+/usr/local/lib/libgnuradio-patches.so
+/usr/local/lib/python2.7/dist-packages/patches/_patches_swig.so
+/usr/local/lib/python2.7/dist-packages/patches/patches_swig.py
+/usr/local/lib/python2.7/dist-packages/patches/patches_swig.pyc
+/usr/local/lib/python2.7/dist-packages/patches/patches_swig.pyo
+/usr/local/include/patches/patches/swig/patches_swig.i
+/usr/local/include/patches/patches/swig/patches_swig_doc.i
+/usr/local/lib/python2.7/dist-packages/patches/__init__.py
+/usr/local/lib/python2.7/dist-packages/patches/__init__.pyc
+/usr/local/lib/python2.7/dist-packages/patches/__init__.pyo
+/usr/local/share/gnuradio/grc/blocks/patches_quadrature_demod.xml

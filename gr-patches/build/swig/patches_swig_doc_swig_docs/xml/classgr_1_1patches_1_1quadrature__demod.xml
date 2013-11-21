@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.7.6.1">
+  <compounddef id="classgr_1_1patches_1_1quadrature__demod" kind="class" prot="public">
+    <compoundname>gr::patches::quadrature_demod</compoundname>
+    <includes refid="quadrature__demod_8h" local="no">quadrature_demod.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classgr_1_1patches_1_1quadrature__demod_1a9cf6e6fc9a5a2deeb3a85c23e5807cb4" prot="public" static="no">
+        <type>boost::shared_ptr&lt; <ref refid="classgr_1_1patches_1_1quadrature__demod" kindref="compound">quadrature_demod</ref> &gt;</type>
+        <definition>typedef boost::shared_ptr&lt;quadrature_demod&gt; gr::patches::quadrature_demod::sptr</definition>
+        <argsstring></argsstring>
+        <name>sptr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/jspark/git/workspace/gr-patches/include/patches/quadrature_demod.h" line="39" bodyfile="/home/jspark/git/workspace/gr-patches/include/patches/quadrature_demod.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classgr_1_1patches_1_1quadrature__demod_1aa6147740aa3f567c44ce1047167b8a42" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classgr_1_1patches_1_1quadrature__demod_1a9cf6e6fc9a5a2deeb3a85c23e5807cb4" kindref="member">sptr</ref></type>
+        <definition>static sptr gr::patches::quadrature_demod::make</definition>
+        <argsstring>(float gain)</argsstring>
+        <name>make</name>
+        <param>
+          <type>float</type>
+          <declname>gain</declname>
+        </param>
+        <briefdescription>
+<para>Return a shared_ptr to a new instance of <ref refid="classgr_1_1patches_1_1quadrature__demod" kindref="compound">patches::quadrature_demod</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para>To avoid accidental use of raw pointers, <ref refid="classgr_1_1patches_1_1quadrature__demod" kindref="compound">patches::quadrature_demod</ref>&apos;s constructor is in a private implementation class. <ref refid="classgr_1_1patches_1_1quadrature__demod_1aa6147740aa3f567c44ce1047167b8a42" kindref="member">patches::quadrature_demod::make</ref> is the public interface for creating new instances. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/jspark/git/workspace/gr-patches/include/patches/quadrature_demod.h" line="49"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classgr_1_1patches_1_1quadrature__demod_1af4e3497aa69b04e94418777daa5fe7c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void gr::patches::quadrature_demod::set_gain</definition>
+        <argsstring>(float gain)=0</argsstring>
+        <name>set_gain</name>
+        <param>
+          <type>float</type>
+          <declname>gain</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/jspark/git/workspace/gr-patches/include/patches/quadrature_demod.h" line="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1patches_1_1quadrature__demod_1a085589f65164b50e3320e6d48d8faad9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>float</type>
+        <definition>virtual float gr::patches::quadrature_demod::gain</definition>
+        <argsstring>() const =0</argsstring>
+        <name>gain</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/jspark/git/workspace/gr-patches/include/patches/quadrature_demod.h" line="51"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>&lt;+description of block+&gt; </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/jspark/git/workspace/gr-patches/include/patches/quadrature_demod.h" line="37" bodyfile="/home/jspark/git/workspace/gr-patches/include/patches/quadrature_demod.h" bodystart="36" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classgr_1_1patches_1_1quadrature__demod_1a085589f65164b50e3320e6d48d8faad9" prot="public" virt="pure-virtual"><scope>gr::patches::quadrature_demod</scope><name>gain</name></member>
+      <member refid="classgr_1_1patches_1_1quadrature__demod_1aa6147740aa3f567c44ce1047167b8a42" prot="public" virt="non-virtual"><scope>gr::patches::quadrature_demod</scope><name>make</name></member>
+      <member refid="classgr_1_1patches_1_1quadrature__demod_1af4e3497aa69b04e94418777daa5fe7c9" prot="public" virt="pure-virtual"><scope>gr::patches::quadrature_demod</scope><name>set_gain</name></member>
+      <member refid="classgr_1_1patches_1_1quadrature__demod_1a9cf6e6fc9a5a2deeb3a85c23e5807cb4" prot="public" virt="non-virtual"><scope>gr::patches::quadrature_demod</scope><name>sptr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
