@@ -7,6 +7,7 @@
 <block>
     <name>Quadrature Demod (Patched)</name>
     <key>patches_quadrature_demod</key>
+    <category>Patches</category>
     <import>import patches</import>
     <import>import math</import>
     <make>patches.quadrature_demod($gain)</make>

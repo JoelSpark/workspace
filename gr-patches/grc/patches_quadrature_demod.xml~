@@ -7,7 +7,7 @@
 <block>
     <name>Quadrature Demod (Patched)</name>
     <key>patches_quadrature_demod</key>
-    <import>from gnuradio import patches</import>
+    <import>import patches</import>
     <import>import math</import>
     <make>patches.quadrature_demod($gain)</make>
     <callback>set_gain($gain)</callback>
