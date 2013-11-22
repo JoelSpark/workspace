@@ -2,7 +2,7 @@
 ##################################################
 # Gnuradio Python Flow Graph
 # Title: Beacon Rx
-# Generated: Thu Nov 21 21:38:52 2013
+# Generated: Thu Nov 21 21:43:04 2013
 ##################################################
 
 from gnuradio import analog
@@ -22,7 +22,7 @@ import time
 
 class beacon_rx(gr.top_block):
 
-    def __init__(self, freq=437e6, freq_error=0, uhf_rx_gain=15, predict_port=1210, predict_hostname="127.0.0.1", satellite_name="25544", control_port=5001, fwd_to_ip="192.168.0.249", iq_path='home/nanosatisfi/data/iq/' + timestamp + '.iq'):
+    def __init__(self, freq=437e6, freq_error=0, uhf_rx_gain=15, predict_port=1210, predict_hostname="127.0.0.1", satellite_name="25544", control_port=5001, fwd_to_ip="192.168.0.249"):
         gr.top_block.__init__(self, "Beacon Rx")
 
         ##################################################
@@ -36,14 +36,14 @@ class beacon_rx(gr.top_block):
         self.satellite_name = satellite_name
         self.control_port = control_port
         self.fwd_to_ip = fwd_to_ip
-        self.iq_path = iq_path
 
         ##################################################
         # Variables
         ##################################################
         self.timestamp = timestamp =  str(time.gmtime().tm_year) + time.strftime("%m%d-%H%M",time.gmtime())
+        self.wav_path = wav_path = '/home/nanosatisfi/data/audio' + timestamp + '.wav'
         self.samp_rate = samp_rate = 400e3
-        self.filename = filename = '/home/nanosatisfi/data/audio' + timestamp + '.wav'
+        self.iq_path = iq_path = '/home/nanosatisfi/data/iq/' + timestamp + '.iq'
         self.doppler_shift = doppler_shift = 0
 
         ##################################################
@@ -73,7 +73,7 @@ class beacon_rx(gr.top_block):
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate/10)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_message_strobe_0_0 = blocks.message_strobe(pmt.intern("TEST"), 500)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1, "iq_path")
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1, iq_path)
         self.blocks_file_sink_0.set_unbuffered(False)
         self.analog_sig_source_x_0_0 = analog.sig_source_c(40000, analog.GR_COS_WAVE, -doppler_shift-freq_error, 1, 0)
 
@@ -146,18 +146,19 @@ class beacon_rx(gr.top_block):
     def set_fwd_to_ip(self, fwd_to_ip):
         self.fwd_to_ip = fwd_to_ip
 
-    def get_iq_path(self):
-        return self.iq_path
-
-    def set_iq_path(self, iq_path):
-        self.iq_path = iq_path
-
     def get_timestamp(self):
         return self.timestamp
 
     def set_timestamp(self, timestamp):
         self.timestamp = timestamp
-        self.set_filename('/home/nanosatisfi/data/audio' + self.timestamp + '.wav')
+        self.set_wav_path('/home/nanosatisfi/data/audio' + self.timestamp + '.wav')
+        self.set_iq_path('/home/nanosatisfi/data/iq/' + self.timestamp + '.iq')
+
+    def get_wav_path(self):
+        return self.wav_path
+
+    def set_wav_path(self, wav_path):
+        self.wav_path = wav_path
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -167,11 +168,12 @@ class beacon_rx(gr.top_block):
         self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate/10)
 
-    def get_filename(self):
-        return self.filename
+    def get_iq_path(self):
+        return self.iq_path
 
-    def set_filename(self, filename):
-        self.filename = filename
+    def set_iq_path(self, iq_path):
+        self.iq_path = iq_path
+        self.blocks_file_sink_0.open(self.iq_path)
 
     def get_doppler_shift(self):
         return self.doppler_shift
@@ -198,10 +200,8 @@ if __name__ == '__main__':
         help="Set control_port [default=%default]")
     parser.add_option("", "--fwd-to-ip", dest="fwd_to_ip", type="string", default="192.168.0.249",
         help="Set fwd_to_ip [default=%default]")
-    parser.add_option("", "--iq-path", dest="iq_path", type="string", default='home/nanosatisfi/data/iq/' + timestamp + '.iq',
-        help="Set iq_path [default=%default]")
     (options, args) = parser.parse_args()
-    tb = beacon_rx(freq=options.freq, freq_error=options.freq_error, uhf_rx_gain=options.uhf_rx_gain, predict_port=options.predict_port, predict_hostname=options.predict_hostname, satellite_name=options.satellite_name, control_port=options.control_port, fwd_to_ip=options.fwd_to_ip, iq_path=options.iq_path)
+    tb = beacon_rx(freq=options.freq, freq_error=options.freq_error, uhf_rx_gain=options.uhf_rx_gain, predict_port=options.predict_port, predict_hostname=options.predict_hostname, satellite_name=options.satellite_name, control_port=options.control_port, fwd_to_ip=options.fwd_to_ip)
     tb.start()
     raw_input('Press Enter to quit: ')
     tb.stop()
