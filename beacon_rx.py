@@ -2,7 +2,7 @@
 ##################################################
 # Gnuradio Python Flow Graph
 # Title: Beacon Rx
-# Generated: Thu Nov 21 21:11:18 2013
+# Generated: Thu Nov 21 21:38:52 2013
 ##################################################
 
 from gnuradio import analog
@@ -22,19 +22,20 @@ import time
 
 class beacon_rx(gr.top_block):
 
-    def __init__(self, uhf_rx_gain=15, satellite_name="25544", control_port=5001, freq=437e6, predict_hostname="127.0.0.1", freq_error=0, predict_port=1210, iq_path=home_dir + "/data/iq/" + timestamp + ".iq"):
+    def __init__(self, freq=437e6, freq_error=0, uhf_rx_gain=15, predict_port=1210, predict_hostname="127.0.0.1", satellite_name="25544", control_port=5001, fwd_to_ip="192.168.0.249", iq_path='home/nanosatisfi/data/iq/' + timestamp + '.iq'):
         gr.top_block.__init__(self, "Beacon Rx")
 
         ##################################################
         # Parameters
         ##################################################
+        self.freq = freq
+        self.freq_error = freq_error
         self.uhf_rx_gain = uhf_rx_gain
+        self.predict_port = predict_port
+        self.predict_hostname = predict_hostname
         self.satellite_name = satellite_name
         self.control_port = control_port
-        self.freq = freq
-        self.predict_hostname = predict_hostname
-        self.freq_error = freq_error
-        self.predict_port = predict_port
+        self.fwd_to_ip = fwd_to_ip
         self.iq_path = iq_path
 
         ##################################################
@@ -42,7 +43,6 @@ class beacon_rx(gr.top_block):
         ##################################################
         self.timestamp = timestamp =  str(time.gmtime().tm_year) + time.strftime("%m%d-%H%M",time.gmtime())
         self.samp_rate = samp_rate = 400e3
-        self.home_dir = home_dir = "/home/nanosatisfi/"
         self.filename = filename = '/home/nanosatisfi/data/audio' + timestamp + '.wav'
         self.doppler_shift = doppler_shift = 0
 
@@ -93,12 +93,39 @@ class beacon_rx(gr.top_block):
 
 # QT sink close method reimplementation
 
+    def get_freq(self):
+        return self.freq
+
+    def set_freq(self, freq):
+        self.freq = freq
+        self.uhd_usrp_source_0.set_center_freq(uhd.tune_request(self.freq,10e6), 0)
+        self.satisfi_predict_query_0.set_freq(self.freq)
+
+    def get_freq_error(self):
+        return self.freq_error
+
+    def set_freq_error(self, freq_error):
+        self.freq_error = freq_error
+        self.analog_sig_source_x_0_0.set_frequency(-self.doppler_shift-self.freq_error)
+
     def get_uhf_rx_gain(self):
         return self.uhf_rx_gain
 
     def set_uhf_rx_gain(self, uhf_rx_gain):
         self.uhf_rx_gain = uhf_rx_gain
         self.uhd_usrp_source_0.set_gain(self.uhf_rx_gain, 0)
+
+    def get_predict_port(self):
+        return self.predict_port
+
+    def set_predict_port(self, predict_port):
+        self.predict_port = predict_port
+
+    def get_predict_hostname(self):
+        return self.predict_hostname
+
+    def set_predict_hostname(self, predict_hostname):
+        self.predict_hostname = predict_hostname
 
     def get_satellite_name(self):
         return self.satellite_name
@@ -113,32 +140,11 @@ class beacon_rx(gr.top_block):
     def set_control_port(self, control_port):
         self.control_port = control_port
 
-    def get_freq(self):
-        return self.freq
+    def get_fwd_to_ip(self):
+        return self.fwd_to_ip
 
-    def set_freq(self, freq):
-        self.freq = freq
-        self.uhd_usrp_source_0.set_center_freq(uhd.tune_request(self.freq,10e6), 0)
-        self.satisfi_predict_query_0.set_freq(self.freq)
-
-    def get_predict_hostname(self):
-        return self.predict_hostname
-
-    def set_predict_hostname(self, predict_hostname):
-        self.predict_hostname = predict_hostname
-
-    def get_freq_error(self):
-        return self.freq_error
-
-    def set_freq_error(self, freq_error):
-        self.freq_error = freq_error
-        self.analog_sig_source_x_0_0.set_frequency(-self.doppler_shift-self.freq_error)
-
-    def get_predict_port(self):
-        return self.predict_port
-
-    def set_predict_port(self, predict_port):
-        self.predict_port = predict_port
+    def set_fwd_to_ip(self, fwd_to_ip):
+        self.fwd_to_ip = fwd_to_ip
 
     def get_iq_path(self):
         return self.iq_path
@@ -161,12 +167,6 @@ class beacon_rx(gr.top_block):
         self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate/10)
 
-    def get_home_dir(self):
-        return self.home_dir
-
-    def set_home_dir(self, home_dir):
-        self.home_dir = home_dir
-
     def get_filename(self):
         return self.filename
 
@@ -182,24 +182,26 @@ class beacon_rx(gr.top_block):
 
 if __name__ == '__main__':
     parser = OptionParser(option_class=eng_option, usage="%prog: [options]")
+    parser.add_option("", "--freq", dest="freq", type="eng_float", default=eng_notation.num_to_str(437e6),
+        help="Set freq [default=%default]")
+    parser.add_option("", "--freq-error", dest="freq_error", type="eng_float", default=eng_notation.num_to_str(0),
+        help="Set freq_error [default=%default]")
     parser.add_option("", "--uhf-rx-gain", dest="uhf_rx_gain", type="eng_float", default=eng_notation.num_to_str(15),
         help="Set uhf_rx_gain [default=%default]")
+    parser.add_option("", "--predict-port", dest="predict_port", type="intx", default=1210,
+        help="Set predict_port [default=%default]")
+    parser.add_option("", "--predict-hostname", dest="predict_hostname", type="string", default="127.0.0.1",
+        help="Set predict_hostname [default=%default]")
     parser.add_option("", "--satellite-name", dest="satellite_name", type="string", default="25544",
         help="Set satellite_name [default=%default]")
     parser.add_option("", "--control-port", dest="control_port", type="intx", default=5001,
         help="Set control_port [default=%default]")
-    parser.add_option("", "--freq", dest="freq", type="eng_float", default=eng_notation.num_to_str(437e6),
-        help="Set freq [default=%default]")
-    parser.add_option("", "--predict-hostname", dest="predict_hostname", type="string", default="127.0.0.1",
-        help="Set predict_hostname [default=%default]")
-    parser.add_option("", "--freq-error", dest="freq_error", type="eng_float", default=eng_notation.num_to_str(0),
-        help="Set freq_error [default=%default]")
-    parser.add_option("", "--predict-port", dest="predict_port", type="intx", default=1210,
-        help="Set predict_port [default=%default]")
-    parser.add_option("", "--iq-path", dest="iq_path", type="string", default=home_dir + "/data/iq/" + timestamp + ".iq",
+    parser.add_option("", "--fwd-to-ip", dest="fwd_to_ip", type="string", default="192.168.0.249",
+        help="Set fwd_to_ip [default=%default]")
+    parser.add_option("", "--iq-path", dest="iq_path", type="string", default='home/nanosatisfi/data/iq/' + timestamp + '.iq',
         help="Set iq_path [default=%default]")
     (options, args) = parser.parse_args()
-    tb = beacon_rx(uhf_rx_gain=options.uhf_rx_gain, satellite_name=options.satellite_name, control_port=options.control_port, freq=options.freq, predict_hostname=options.predict_hostname, freq_error=options.freq_error, predict_port=options.predict_port, iq_path=options.iq_path)
+    tb = beacon_rx(freq=options.freq, freq_error=options.freq_error, uhf_rx_gain=options.uhf_rx_gain, predict_port=options.predict_port, predict_hostname=options.predict_hostname, satellite_name=options.satellite_name, control_port=options.control_port, fwd_to_ip=options.fwd_to_ip, iq_path=options.iq_path)
     tb.start()
     raw_input('Press Enter to quit: ')
     tb.stop()
