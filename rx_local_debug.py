@@ -2,7 +2,7 @@
 ##################################################
 # Gnuradio Python Flow Graph
 # Title: Rx Local Debug
-# Generated: Wed Mar 12 14:00:11 2014
+# Generated: Wed Mar 12 17:46:39 2014
 ##################################################
 
 from gnuradio import analog
@@ -146,8 +146,6 @@ class rx_local_debug(grc_wxgui.top_block_gui):
         )
         self.Add(self._tracking_static_text)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1, "/home/jspark/sample_interference.iq", False)
-        self.blocks_file_sink_0.set_unbuffered(False)
         self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate/1, analog.GR_COS_WAVE, -adjust-(doppler_shift*doppler_enable), 1, 0)
 
         ##################################################
@@ -155,7 +153,6 @@ class rx_local_debug(grc_wxgui.top_block_gui):
         ##################################################
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.blocks_multiply_xx_0, 0), (self.wxgui_fftsink2_0, 0))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.uhd_usrp_source_0, 0), (self.blocks_multiply_xx_0, 0))
 
 
